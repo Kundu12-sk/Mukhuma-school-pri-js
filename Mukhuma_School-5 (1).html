@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Mukhuma Primary and Junior School</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1a2639;min-height:100vh}
+:root{--navy:#003366;--gold:#f0b400;--green:#1e8449;--red:#c0392b;--orange:#e67e22;--blue:#2471a3;--border:#dde3eb}
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+/* ── LOGIN ── */
+#login{background:linear-gradient(135deg,#003366,#1a5276);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:white;border-radius:16px;padding:28px 22px;width:100%;max-width:360px}
+.logo{width:64px;height:64px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:var(--navy);margin:0 auto 12px}
+.login-box h2{text-align:center;color:var(--navy);font-size:16px;margin-bottom:2px}
+.login-box p{text-align:center;color:#888;font-size:11px;margin-bottom:20px}
+.fgrp{margin-bottom:13px}
+.fgrp label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:4px;text-transform:uppercase}
+.fgrp select,.fgrp input{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none}
+.btn-login{width:100%;background:var(--navy);color:white;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px}
+.err{color:var(--red);font-size:12px;text-align:center;margin-top:8px;display:none}
+.hint{font-size:11px;color:#aaa;text-align:center;margin-top:12px}
+/* ── HOME MENU ── */
+#home{background:#f0f4f8}
+.topbar{background:linear-gradient(90deg,var(--navy),#1a5276);color:white;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.topbar-logo{width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--navy);font-size:14px;flex-shrink:0}
+.topbar-info{flex:1}
+.topbar-info .t1{font-size:13px;font-weight:700}
+.topbar-info .t2{font-size:10px;opacity:0.75}
+.topbar-right{font-size:11px;opacity:0.8;text-align:right}
+.welcome{padding:16px;background:white;border-bottom:1px solid var(--border)}
+.welcome h3{font-size:15px;color:var(--navy);font-weight:700}
+.welcome p{font-size:12px;color:#888;margin-top:2px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.menu-card{background:white;border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:all 0.2s;-webkit-tap-highlight-color:rgba(0,51,102,0.1)}
+.menu-card:active{transform:scale(0.97);border-color:var(--navy)}
+.menu-card .icon{font-size:32px;margin-bottom:8px}
+.menu-card .label{font-size:13px;font-weight:700;color:var(--navy)}
+.menu-card .sub{font-size:11px;color:#888;margin-top:2px}
+.logout-btn{display:block;margin:4px 16px 20px;padding:12px;background:white;border:1.5px solid var(--border);border-radius:10px;text-align:center;color:#c0392b;font-size:13px;font-weight:700;cursor:pointer}
+/* ── INNER PAGES ── */
+#innerPage{background:#f0f4f8}
+.page-header{background:linear-gradient(90deg,var(--navy),#1a5276);color:white;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.back-btn{background:none;border:none;color:white;font-size:20px;cursor:pointer;padding:0 4px}
+.page-header h2{font-size:15px;font-weight:700;flex:1}
+.page-body{padding:14px}
+/* CARDS */
+.card{background:white;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid var(--border)}
+.card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+/* FORM */
+.row{margin-bottom:11px}
+.row label{display:block;font-size:11px;font-weight:700;color:#6b7a8d;text-transform:uppercase;margin-bottom:4px}
+.row input,.row select,.row textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;outline:none;font-family:Arial,sans-serif}
+.row input:focus,.row select:focus{border-color:var(--navy)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px}
+/* BUTTONS */
+.btn{padding:11px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;display:inline-block}
+.btn-navy{background:var(--navy);color:white;width:100%;margin-bottom:8px}
+.btn-green{background:var(--green);color:white;width:100%;margin-bottom:8px}
+.btn-outline{background:white;border:1.5px solid var(--border);color:#555;width:100%;margin-bottom:8px}
+.btn-gold{background:var(--gold);color:var(--navy);width:100%;margin-bottom:8px}
+/* TABLE */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--navy);color:white;padding:8px 10px;text-align:left;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid #f0f2f5;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#f8fafc}
+/* BADGE */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.b-ee{background:#d5f5e3;color:#1e8449}
+.b-me{background:#d6eaf8;color:#2471a3}
+.b-ae{background:#fdebd0;color:#e67e22}
+.b-be{background:#fadbd8;color:#c0392b}
+/* STAT ROW */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.stat{background:white;border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border)}
+.stat .n{font-size:24px;font-weight:800;color:var(--navy)}
+.stat .l{font-size:11px;color:#888;margin-top:2px}
+/* MARKS INPUT */
+.mark-row{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid #f0f2f5;gap:8px}
+.mark-row:last-child{border-bottom:none}
+.mark-subj{flex:1;font-size:12px;font-weight:600;color:#333}
+.mark-inp{width:58px;padding:6px;border:1.5px solid var(--border);border-radius:6px;text-align:center;font-size:13px;font-weight:700}
+.mark-pl{width:42px;text-align:center;font-size:11px;font-weight:700}
+.mark-pts{width:28px;text-align:center;font-size:11px;color:#888}
+/* SEARCH */
+.search-box{display:flex;gap:8px;margin-bottom:12px}
+.search-box input{flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;outline:none}
+.search-box button{padding:10px 14px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+/* RESULT CARD */
+.result-header{background:linear-gradient(135deg,var(--navy),#1a5276);color:white;border-radius:10px;padding:14px;margin-bottom:12px}
+.result-header h3{font-size:16px;font-weight:700}
+.result-header p{font-size:11px;opacity:0.8;margin-top:3px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.info-item{background:#f8fafc;border-radius:8px;padding:10px}
+.info-item .il{font-size:10px;color:#888;font-weight:700;text-transform:uppercase}
+.info-item .iv{font-size:13px;font-weight:700;color:var(--navy);margin-top:2px}
+/* FEES */
+.fee-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.fee-c{border-radius:8px;padding:10px;text-align:center}
+.fee-c .fa{font-size:14px;font-weight:800}
+.fee-c .fl{font-size:10px;font-weight:600;margin-top:2px}
+.fee-c.g{background:#d5f5e3;color:#1e8449}
+.fee-c.o{background:#fdebd0;color:#e67e22}
+.fee-c.r{background:#fadbd8;color:#c0392b}
+/* ATTENDANCE */
+.att-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #f0f2f5;gap:8px}
+.att-row:last-child{border-bottom:none}
+.att-name{flex:1;font-size:12px;font-weight:600}
+.att-sel{padding:5px;border:1.5px solid var(--border);border-radius:6px;font-size:12px}
+/* CBC TABLE */
+.cbc-tbl th{font-size:10px;padding:6px 8px}
+.cbc-tbl td{font-size:11px;padding:6px 8px;text-align:center}
+.cbc-tbl td:first-child{text-align:left;font-weight:600}
+/* TREND */
+.up{color:#1e8449;font-weight:700}
+.dn{color:#c0392b;font-weight:700}
+.eq{color:#e67e22;font-weight:700}
+/* ALERT */
+.alert{padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:12px}
+.alert-info{background:#d6eaf8;color:#2471a3;border:1px solid #aed6f1}
+.alert-ok{background:#d5f5e3;color:#1e8449;border:1px solid #a9dfbf}
+.alert-err{background:#fadbd8;color:#c0392b;border:1px solid #f5c6c6}
+/* DIVIDER */
+.divider{text-align:center;font-size:11px;color:#aaa;margin:8px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border)}
+.divider::before{left:0}.divider::after{right:0}
+</style>
+</head>
+<body>
+<div class="screen active" id="login">
+<div class="login-box">
+<div class="logo">M</div>
+<h2>Mukhuma Primary and Junior School</h2>
+<p>School Management System</p>
+<div class="fgrp">
+<label>I am a / Mimi ni</label>
+<select id="lRole">
+<option value="">-- Select / Chagua --</option>
+<option value="admin">Principal / Admin</option>
+<option value="teacher">Class Teacher / Mwalimu</option>
+<option value="subject">Subject Teacher</option>
+<option value="parent">Parent / Mzazi</option>
+</select>
+</div>
+<div class="fgrp" id="userPassFields">
+<label>Username</label>
+<input type="text" id="lUser" placeholder="e.g. admin" autocomplete="username"/>
+<label style="margin-top:8px">Password / Nywila</label>
+<input type="password" id="lPass" placeholder="••••••" autocomplete="current-password"/>
+</div>
+<button class="btn-login" onclick="login()">🔐 Sign In / Ingia</button>
+<div class="err" id="lErr">❌ Wrong username or password</div>
+<div id="loginHint" style="display:none;font-size:11px;color:#aaa;text-align:center;margin-top:12px">
+Staff credentials provided by school administration
+</div>
+</div>
+</div>
+<div class="screen" id="home">
+<div class="topbar">
+<div class="topbar-logo">M</div>
+<div class="topbar-info">
+<div class="t1">Mukhuma Primary and Junior School</div>
+<div class="t2">School Management System · 2026</div>
+</div>
+</div>
+<div class="welcome">
+<h3 id="welcomeMsg">Welcome!</h3>
+<p id="welcomeSub">Select what you want to do</p>
+</div>
+<div class="menu-grid" id="menuGrid"></div>
+<div class="logout-btn" onclick="logout()">🚪 Logout / Toka</div>
+</div>
+<div class="screen" id="innerPage">
+<div class="page-header">
+<button class="back-btn" onclick="goHome()">←</button>
+<h2 id="pageTitle">Page</h2>
+</div>
+<div class="page-body" id="pageBody"></div>
+</div>
+<script>
+// ═══ DATA ═══
+const USERS = {
+admin:   {pass:'Hoi@mukhuma123', role:'admin',   name:'Principal Marumbu'},
+mukhuma: {pass:'Mukhuma@2026',   role:'teacher', name:'Teacher'},
+};
+const GRADES = ['Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9'];
+const SUBJECTS = {
+'Grade 1':['Literacy','Numeracy','Environmental Activities','Creative Arts','Religious Education'],
+'Grade 2':['Literacy','Numeracy','Environmental Activities','Creative Arts','Religious Education'],
+'Grade 3':['Literacy','Numeracy','Environmental Activities','Creative Arts','Religious Education'],
+'Grade 4':['English','Kiswahili','Mathematics','Integrated Science','Social Studies','Creative Arts','Religious Education'],
+'Grade 5':['English','Kiswahili','Mathematics','Integrated Science','Social Studies','Creative Arts','Religious Education'],
+'Grade 6':['English','Kiswahili','Mathematics','Integrated Science','Social Studies','Creative Arts','Religious Education'],
+'Grade 7':['English','Kiswahili','Mathematics','Integrated Science','Agriculture','Social Studies','CRE','Creative Arts (CAS)','Pre-Technical Studies'],
+'Grade 8':['English','Kiswahili','Mathematics','Integrated Science','Agriculture','Social Studies','CRE','Creative Arts (CAS)','Pre-Technical Studies'],
+'Grade 9':['English','Kiswahili','Mathematics','Integrated Science','Agriculture','Social Studies','CRE','Creative Arts (CAS)','Pre-Technical Studies'],
+};
+const ENROL = {
+'Grade 1':61,'Grade 2':58,'Grade 3':63,'Grade 4':65,'Grade 5':62,
+'Grade 6':61,'Grade 7':63,'Grade 8':59,'Grade 9':62
+};
+let S = JSON.parse(localStorage.getItem('mrc_s')||'[]');
+let M = JSON.parse(localStorage.getItem('mrc_m')||'{}');
+let F = JSON.parse(localStorage.getItem('mrc_f')||'[]');
+let currentUser = null;
+if(!S.length){
+S=[
+{id:1,name:'SETH MUKENI',grade:'Grade 9',g:'M',adm:'087',assess:'B000284688',contact:'0712001001'},
+{id:2,name:'ADELAIDE SIMIYU',grade:'Grade 9',g:'F',adm:'081',assess:'B000519477',contact:'0712002002'},
+{id:3,name:'HILLARY WAMBIYA',grade:'Grade 9',g:'M',adm:'088',assess:'B000370808',contact:'0712003003'},
+{id:4,name:'HADIJA OKUMU',grade:'Grade 9',g:'F',adm:'064',assess:'B000368195',contact:'0712004004'},
+{id:5,name:'ABEL WEKESA',grade:'Grade 9',g:'M',adm:'128',assess:'B000398831',contact:'0712005005'},
+{id:6,name:'BLESSING SIMIYU',grade:'Grade 8',g:'F',adm:'045',assess:'B000312345',contact:'0712006006'},
+{id:7,name:'KEVIN WAFULA',grade:'Grade 8',g:'M',adm:'046',assess:'B000312346',contact:'0712007007'},
+{id:8,name:'GRACE NAMUKWAYA',grade:'Grade 7',g:'F',adm:'031',assess:'B000219011',contact:'0712008008'},
+{id:9,name:'BRIAN WESONGA',grade:'Grade 6',g:'M',adm:'020',assess:'B000118899',contact:'0712009009'},
+{id:10,name:'FAITH WANJALA',grade:'Grade 5',g:'F',adm:'015',assess:'B000097531',contact:'0712010010'},
+{id:11,name:'JAMES OTIENO',grade:'Grade 4',g:'M',adm:'010',assess:'B000076420',contact:'0712011011'},
+{id:12,name:'SARAH NEKESA',grade:'Grade 3',g:'F',adm:'005',assess:'B000043210',contact:'0712012012'},
+{id:13,name:'PETER SIMIYU',grade:'Grade 2',g:'M',adm:'003',assess:'B000021098',contact:'0712013013'},
+{id:14,name:'MARY WEKESA',grade:'Grade 1',g:'F',adm:'001',assess:'B000010011',contact:'0712014014'},
+];
+save();
+}
+if(!F.length){
+F=S.map((s,i)=>{
+const n=parseInt(s.grade.replace('Grade ',''));
+const fee=n>=7?6500:n>=4?4500:3500;
+const paid=[6500,6500,5000,6500,3000,4500,3000,4500,2000,3000,2000,3500,3500,3500][i]||0;
+return{id:i+1,sid:s.id,name:s.name,grade:s.grade,fee,paid,bal:fee-paid};
+});
+localStorage.setItem('mrc_f',JSON.stringify(F));
+}
+function save(){localStorage.setItem('mrc_s',JSON.stringify(S));}
+function saveM(){localStorage.setItem('mrc_m',JSON.stringify(M));}
+// ═══ GRADING ═══
+function is8(grade){return parseInt(grade.replace('Grade ',''))>=7;}
+function getPL(mark,grade){
+if(mark===''||mark===null||mark===undefined)return '';
+mark=parseFloat(mark);
+if(is8(grade)){
+if(mark>=90)return'EE1';if(mark>=75)return'EE2';if(mark>=58)return'ME1';
+if(mark>=41)return'ME2';if(mark>=31)return'AE1';if(mark>=21)return'AE2';
+if(mark>=11)return'BE1';return'BE2';
+}else{
+if(mark>=75)return'EE';if(mark>=50)return'ME';if(mark>=25)return'AE';return'BE';
+}
+}
+function getPts(mark,grade){
+if(mark===''||mark===null||mark===undefined)return'';
+mark=parseFloat(mark);
+if(is8(grade)){
+if(mark>=90)return 8;if(mark>=75)return 7;if(mark>=58)return 6;
+if(mark>=41)return 5;if(mark>=31)return 4;if(mark>=21)return 3;
+if(mark>=11)return 2;return 1;
+}else{
+if(mark>=75)return 4;if(mark>=50)return 3;if(mark>=25)return 2;return 1;
+}
+}
+function getOvr(pts,grade){
+if(!pts&&pts!==0)return'';
+if(is8(grade)){
+if(pts>=68)return'EE1';if(pts>=59)return'EE2';if(pts>=50)return'ME1';
+if(pts>=41)return'ME2';if(pts>=32)return'AE1';if(pts>=23)return'AE2';
+if(pts>=14)return'BE1';return'BE2';
+}else{
+const max=(SUBJECTS[grade]||[]).length*4;
+const p=pts/max*100;
+if(p>=75)return'EE';if(p>=50)return'ME';if(p>=25)return'AE';return'BE';
+}
+}
+function plBadge(pl){
+if(!pl)return'—';
+const c=pl.startsWith('EE')?'b-ee':pl.startsWith('ME')?'b-me':pl.startsWith('AE')?'b-ae':'b-be';
+return`<span class="badge ${c}">${pl}</span>`;
+}
+function plColor(pl){
+if(!pl)return'#aaa';
+if(pl.startsWith('EE'))return'#1e8449';
+if(pl.startsWith('ME'))return'#2471a3';
+if(pl.startsWith('AE'))return'#e67e22';
+return'#c0392b';
+}
+// ═══ LOGIN ═══
+document.getElementById('lRole').onchange=function(){
+const isParent=this.value==='parent';
+const isStaff=this.value==='admin'||this.value==='teacher'||this.value==='subject';
+document.getElementById('userPassFields').style.display=isParent?'none':'block';
+document.getElementById('loginHint').style.display=isStaff?'block':'none';
+};
+function login(){
+const role=document.getElementById('lRole').value;
+if(!role){document.getElementById('lErr').textContent='Please select your role / Tafadhali chagua wajibu wako';document.getElementById('lErr').style.display='block';return;}
+if(role==='parent'){
+currentUser={role:'parent',name:'Parent/Guardian'};
+showHome();
+return;
+}
+const user=document.getElementById('lUser').value.trim().toLowerCase();
+const pass=document.getElementById('lPass').value;
+if(!user||!pass){document.getElementById('lErr').textContent='Enter username and password';document.getElementById('lErr').style.display='block';return;}
+const u=USERS[user];
+if(u&&u.pass===pass){
+currentUser={...u,username:user};
+showHome();
+} else {
+document.getElementById('lErr').style.display='block';
+}
+}
+function logout(){
+currentUser=null;
+show('login');
+document.getElementById('lRole').value='';
+document.getElementById('lUser').value='';
+document.getElementById('lPass').value='';
+document.getElementById('lErr').style.display='none';
+document.getElementById('userPassFields').style.display='block';
+}
+// ═══ NAVIGATION ═══
+function show(id){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+window.scrollTo(0,0);
+}
+function showHome(){
+document.getElementById('welcomeMsg').textContent='Welcome, '+currentUser.name+'!';
+const isParent=currentUser.role==='parent';
+document.getElementById('welcomeSub').textContent=isParent
+?'Enter your child\'s Admission or Assessment Number to view results'
+:'Term 2 · 2026 · Select what to do';
+buildMenu();
+show('home');
+}
+function goHome(){show('home');}
+// Pages restricted to staff only
+const STAFF_ONLY_PAGES=['📊 Dashboard','👨‍🎓 Students','📝 Enter Marks','📋 Reports','🎓 CBC Summary','📅 Attendance','👩‍🏫 Teachers'];
+function openPage(title, fn){
+// Block parents from accessing staff pages
+if(currentUser&&currentUser.role==='parent'){
+const restricted=STAFF_ONLY_PAGES.some(p=>title.includes(p.replace(/^[^\s]+\s/,'')));
+if(restricted){
+alert('⛔ Access denied. This section is for school staff only.');
+return;
+}
+}
+document.getElementById('pageTitle').textContent=title;
+document.getElementById('pageBody').innerHTML='';
+show('innerPage');
+fn();
+}
+// ═══ MENU ═══
+function buildMenu(){
+const isAdmin=currentUser.role==='admin';
+const isTeacher=currentUser.role==='teacher'||currentUser.role==='subject'||isAdmin;
+const isParent=currentUser.role==='parent';
+let items=[];
+if(!isParent){
+items=[
+{icon:'📊',label:'Dashboard',sub:'School overview',fn:()=>openPage('📊 Dashboard',pageDashboard)},
+{icon:'👨‍🎓',label:'Students',sub:'Manage learners',fn:()=>openPage('👨‍🎓 Students',pageStudents)},
+{icon:'📝',label:'Enter Marks',sub:'Input assessments',fn:()=>openPage('📝 Enter Marks',pageMarks)},
+{icon:'📋',label:'Reports',sub:'View results',fn:()=>openPage('📋 Reports',pageReports)},
+{icon:'🎓',label:'CBC Summary',sub:'Performance levels',fn:()=>openPage('🎓 CBC Summary',pageCBC)},
+{icon:'📅',label:'Attendance',sub:'Weekly record',fn:()=>openPage('📅 Attendance',pageAttendance)},
+{icon:'👨‍👩‍👧',label:'Parent Portal',sub:'Check results',fn:()=>openPage('👨‍👩‍👧 Parent Portal',pagePortal)},
+];
+} else {
+items=[
+{icon:'🔍',label:'Check Results',sub:'View child performance',fn:()=>openPage('👨‍👩‍👧 Check Results',pagePortal)},
+];
+}
+document.getElementById('menuGrid').innerHTML=items.map((it,i)=>`
+<div class="menu-card" onclick="menuItems[${i}].fn()">
+<div class="icon">${it.icon}</div>
+<div class="label">${it.label}</div>
+<div class="sub">${it.sub}</div>
+</div>`).join('');
+window.menuItems=items;
+}
+// ═══ DASHBOARD ═══
+function pageDashboard(){
+const totalStudents=Object.values(ENROL).reduce((a,b)=>a+b,0);
+document.getElementById('pageBody').innerHTML=`
+<div class="stats">
+<div class="stat"><div class="n">${totalStudents}</div><div class="l">👨‍🎓 Total Students</div></div>
+<div class="stat"><div class="n">9</div><div class="l">📚 Classes</div></div>
+<div class="stat"><div class="n">24</div><div class="l">👩‍🏫 Teachers</div></div>
+<div class="stat"><div class="n" style="font-size:16px">KES 1.2M</div><div class="l">💰 Fees Collected</div></div>
+</div>
+<div class="card">
+<div class="card-title">📊 Enrolment by Grade</div>
+${GRADES.map(g=>{
+const n=parseInt(g.replace('Grade ',''));
+const band=n<=6?'4-level CBC':'8-level CBC';
+const badgeCls=n<=6?'b-me':'b-ee';
+return`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #f0f2f5">
+<div style="flex:1;font-size:13px;font-weight:600">${g}</div>
+<div style="font-size:13px;font-weight:700;color:var(--navy);margin-right:10px">${ENROL[g]} learners</div>
+<span class="badge ${badgeCls}" style="font-size:10px">${band}</span>
+</div>`;
+}).join('')}
+</div>
+<div class="card">
+<div class="card-title">📢 Recent Activity</div>
+${[
+{i:'📝',t:'Marks saved · Grade 9 · Assessment 2',d:'Today'},
+{i:'💰',t:'Fee paid · Seth Mukeni · KES 6,500',d:'Today'},
+{i:'📅',t:'Attendance recorded · Grade 8',d:'Yesterday'},
+{i:'👨‍🎓',t:'New student enrolled · Grade 1',d:'2 days ago'},
+].map(a=>`<div style="display:flex;gap:10px;padding:8px;background:#f8fafc;border-radius:8px;margin-bottom:6px">
+<span style="font-size:18px">${a.i}</span>
+<div><div style="font-size:12px">${a.t}</div><div style="font-size:10px;color:#aaa">${a.d}</div></div>
+</div>`).join('')}
+</div>`;
+}
+// ═══ STUDENTS ═══
+function pageStudents(){
+renderStudents('');
+}
+function renderStudents(filter){
+const list=S.filter(s=>!filter||s.name.toLowerCase().includes(filter.toLowerCase())||s.adm.includes(filter));
+document.getElementById('pageBody').innerHTML=`
+<div class="search-box">
+<input placeholder="🔍 Search name or adm no..." oninput="renderStudents(this.value)" value="${filter}"/>
+<button onclick="showAddStudent()">+ Add</button>
+</div>
+<div class="card">
+<div class="card-title">👨‍🎓 Students (${list.length})</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>📷</th><th>#</th><th>Name</th><th>Grade</th><th>Adm</th><th>Gender</th><th>Edit</th></tr></thead>
+<tbody>${list.map((s,i)=>{
+const photo=localStorage.getItem('photo_'+s.id);
+const img=photo?`<img src="${photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--navy)"/>`:
+`<div style="width:32px;height:32px;border-radius:50%;background:#d6eaf8;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid var(--border)">${s.g==='M'?'👦':'👧'}</div>`;
+return`<tr>
+<td>${img}</td>
+<td>${i+1}</td><td><strong>${s.name}</strong></td><td>${s.grade}</td>
+<td>${s.adm}</td><td>${s.g==='M'?'♂':'♀'}</td>
+<td><button class="btn btn-navy" style="padding:4px 10px;font-size:11px" onclick="editStudent(${s.id})">✏️ Edit</button></td>
+</tr>`;
+}).join('')}</tbody>
+</table>
+</div>
+</div>
+<div id="addStudentForm" style="display:none">
+<div class="card">
+<div class="card-title">➕ Add New Student</div>
+<div class="row"><label>Full Name</label><input id="sName" placeholder="Full name in CAPITALS"/></div>
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Grade</label><select id="sGrade">${GRADES.map(g=>`<option${g==='Grade 9'?' selected':''}>${g}</option>`).join('')}</select></div>
+<div class="row" style="margin-bottom:0"><label>Gender</label><select id="sGender"><option value="M">Male</option><option value="F">Female</option></select></div>
+</div>
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Adm No</label><input id="sAdm" placeholder="e.g. 131"/></div>
+<div class="row" style="margin-bottom:0"><label>Assess No</label><input id="sAssess" placeholder="e.g. B000..."/></div>
+</div>
+<div class="row"><label>Parent Contact</label><input id="sContact" placeholder="0712 345 678"/></div>
+<button class="btn btn-navy" onclick="saveStudent()">💾 Save Student</button>
+<button class="btn btn-outline" onclick="document.getElementById('addStudentForm').style.display='none'">Cancel</button>
+</div>
+</div>`;
+}
+function previewPhoto(input, id){
+if(!input.files||!input.files[0])return;
+const file=input.files[0];
+const reader=new FileReader();
+reader.onload=function(e){
+const data=e.target.result;
+// Compress image before saving
+const img=new Image();
+img.onload=function(){
+const canvas=document.createElement('canvas');
+const MAX=200;
+let w=img.width,h=img.height;
+if(w>h){if(w>MAX){h=h*(MAX/w);w=MAX;}}
+else{if(h>MAX){w=w*(MAX/h);h=MAX;}}
+canvas.width=w;canvas.height=h;
+canvas.getContext('2d').drawImage(img,0,0,w,h);
+const compressed=canvas.toDataURL('image/jpeg',0.7);
+localStorage.setItem('photo_'+id, compressed);
+// Update preview
+document.getElementById('photoPreview').innerHTML=
+`<img src="${compressed}" style="width:100%;height:100%;object-fit:cover"/>`;
+alert('✅ Photo saved!');
+};
+img.src=data;
+};
+reader.readAsDataURL(file);
+}
+function removePhoto(id){
+if(!confirm('Remove this student photo?'))return;
+localStorage.removeItem('photo_'+id);
+alert('🗑 Photo removed.');
+editStudent(id);
+}
+function editStudent(id){
+const s=S.find(x=>x.id===id);
+if(!s)return;
+// Show edit form at top of page
+const existing=document.getElementById('editStudentForm');
+if(existing)existing.remove();
+const div=document.createElement('div');
+div.id='editStudentForm';
+// get existing photo
+const existingPhoto=localStorage.getItem('photo_'+id);
+div.innerHTML=`
+<div class="card" style="border:2px solid var(--navy)">
+<div class="card-title">✏️ Edit Student · ${s.name}</div>
+<div style="text-align:center;margin-bottom:16px">
+<div id="photoPreview" style="width:90px;height:90px;border-radius:50%;margin:0 auto 10px;overflow:hidden;border:3px solid var(--navy);background:#f0f4f8;display:flex;align-items:center;justify-content:center">
+${existingPhoto
+? `<img src="${existingPhoto}" style="width:100%;height:100%;object-fit:cover"/>`
+: `<span style="font-size:36px">${s.g==='M'?'👦':'👧'}</span>`}
+</div>
+<label style="display:inline-block;background:var(--navy);color:white;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">
+📷 ${existingPhoto?'Change Photo':'Upload Photo'}
+<input type="file" accept="image/*" capture="environment" style="display:none" onchange="previewPhoto(this,${id})"/>
+</label>
+${existingPhoto?`<button onclick="removePhoto(${id})" style="display:block;margin:6px auto 0;background:none;border:none;color:#c0392b;font-size:12px;cursor:pointer">🗑 Remove Photo</button>`:''}
+</div>
+<div class="row"><label>Full Name</label><input id="eName" value="${s.name}"/></div>
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Grade</label>
+<select id="eGrade">${GRADES.map(g=>`<option${g===s.grade?' selected':''}>${g}</option>`).join('')}</select>
+</div>
+<div class="row" style="margin-bottom:0"><label>Gender</label>
+<select id="eGender"><option value="M"${s.g==='M'?' selected':''}>Male</option><option value="F"${s.g==='F'?' selected':''}>Female</option></select>
+</div>
+</div>
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Adm No</label><input id="eAdm" value="${s.adm}"/></div>
+<div class="row" style="margin-bottom:0"><label>Assess No</label><input id="eAssess" value="${s.assess}"/></div>
+</div>
+<div class="row"><label>Parent Contact</label><input id="eContact" value="${s.contact}"/></div>
+<button class="btn btn-green" onclick="updateStudent(${id})">💾 Save Changes</button>
+<button class="btn btn-outline" onclick="document.getElementById('editStudentForm').remove()">Cancel</button>
+<button class="btn btn-navy" style="background:#c0392b" onclick="deleteStudent(${id})">🗑 Delete Student</button>
+</div>`;
+document.getElementById('pageBody').insertBefore(div, document.getElementById('pageBody').firstChild);
+window.scrollTo(0,0);
+}
+function updateStudent(id){
+const s=S.find(x=>x.id===id);
+if(!s)return;
+s.name=document.getElementById('eName').value.trim().toUpperCase();
+s.grade=document.getElementById('eGrade').value;
+s.g=document.getElementById('eGender').value;
+s.adm=document.getElementById('eAdm').value.trim();
+s.assess=document.getElementById('eAssess').value.trim();
+s.contact=document.getElementById('eContact').value.trim();
+save();
+alert('✅ '+s.name+' updated!');
+renderStudents('');
+}
+function deleteStudent(id){
+const s=S.find(x=>x.id===id);
+if(!confirm('Delete '+s.name+'? This cannot be undone.'))return;
+S=S.filter(x=>x.id!==id);
+save();
+alert('🗑 Student deleted.');
+renderStudents('');
+}
+function showAddStudent(){
+const f=document.getElementById('addStudentForm');
+f.style.display=f.style.display==='none'?'block':'none';
+}
+function saveStudent(){
+const name=document.getElementById('sName').value.trim().toUpperCase();
+if(!name){alert('Enter student name');return;}
+const s={
+id:Date.now(),name,
+grade:document.getElementById('sGrade').value,
+g:document.getElementById('sGender').value,
+adm:document.getElementById('sAdm').value,
+assess:document.getElementById('sAssess').value,
+contact:document.getElementById('sContact').value,
+};
+S.push(s);save();
+alert('✅ '+name+' saved!');
+renderStudents('');
+}
+// ═══ MARKS ═══
+function pageMarks(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card">
+<div class="card-title">📝 Select Class & Assessment</div>
+<div class="row"><label>Grade / Darasa</label>
+<select id="mGrade" onchange="loadMarks()">${GRADES.map(g=>`<option${g==='Grade 9'?' selected':''}>${g}</option>`).join('')}</select>
+</div>
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Term</label>
+<select id="mTerm" onchange="loadMarks()"><option>Term 1</option><option selected>Term 2</option><option>Term 3</option></select>
+</div>
+<div class="row" style="margin-bottom:0"><label>Assessment</label>
+<select id="mAssess" onchange="loadMarks()"><option>Assessment 1</option><option selected>Assessment 2</option><option>End of Term</option></select>
+</div>
+</div>
+</div>
+<div id="marksArea"></div>`;
+loadMarks();
+}
+function loadMarks(){
+const grade=document.getElementById('mGrade').value;
+const term=document.getElementById('mTerm').value;
+const assess=document.getElementById('mAssess').value;
+const students=S.filter(s=>s.grade===grade);
+const subjects=SUBJECTS[grade]||[];
+const key=`${grade}|${term}|${assess}`;
+const saved=M[key]||{};
+if(!students.length){
+document.getElementById('marksArea').innerHTML=`<div class="alert alert-info">No students in ${grade}. Add students first.</div>`;
+return;
+}
+// Show first student selector
+const stuOpts=students.map((s,i)=>`<option value="${s.id}">${i+1}. ${s.name}</option>`).join('');
+document.getElementById('marksArea').innerHTML=`
+<div class="card">
+<div class="card-title">👤 Select Student</div>
+<div class="row"><label>Student / Mwanafunzi</label>
+<select id="mStudent" onchange="loadStudentMarks()">${stuOpts}</select>
+</div>
+</div>
+<div class="card" id="marksCard">
+<div class="card-title" id="marksCardTitle">📋 Marks</div>
+<div id="marksRows"></div>
+<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+<div id="marksSummary" style="margin-bottom:10px"></div>
+<div class="alert alert-info" style="margin-bottom:10px;font-size:11px">
+✏️ To <strong>edit</strong> a mark — just change the number and tap Save.<br>
+🗑 To <strong>remove</strong> a mark — clear the box and tap Save.
+</div>
+<button class="btn btn-green" onclick="saveStudentMarks()">💾 Save / Update Marks</button>
+<button class="btn btn-outline" onclick="clearStudentMarks()">🗑 Clear All Marks</button>
+</div>
+</div>`;
+loadStudentMarks();
+}
+function loadStudentMarks(){
+const grade=document.getElementById('mGrade').value;
+const term=document.getElementById('mTerm').value;
+const assess=document.getElementById('mAssess').value;
+const sid=parseInt(document.getElementById('mStudent').value);
+const student=S.find(s=>s.id===sid);
+const subjects=SUBJECTS[grade]||[];
+const key=`${grade}|${term}|${assess}`;
+const saved=(M[key]||{})[sid]||{};
+document.getElementById('marksCardTitle').textContent=`📋 ${student.name} · ${grade}`;
+let totalMark=0,totalPts=0,count=0;
+const rows=subjects.map(subj=>{
+const m=saved[subj]!==undefined?saved[subj]:'';
+const pl=m!==''?getPL(m,grade):'';
+const pts=m!==''?getPts(m,grade):'';
+if(m!==''){totalMark+=parseFloat(m);totalPts+=parseInt(pts)||0;count++;}
+const plCol=pl?plColor(pl):'#aaa';
+return`<div class="mark-row">
+<div class="mark-subj">${subj}</div>
+<input class="mark-inp" type="number" min="0" max="100" value="${m}"
+data-subj="${subj}" oninput="onMarkChange(this,'${grade}')"
+placeholder="—"/>
+<div class="mark-pl" style="color:${plCol};font-weight:700" id="pl_${subj.replace(/[^a-z]/gi,'_')}">${pl||'—'}</div>
+<div class="mark-pts" id="pts_${subj.replace(/[^a-z]/gi,'_')}">${pts||''}</div>
+</div>`;
+}).join('');
+document.getElementById('marksRows').innerHTML=rows;
+updateMarksSummary(grade,totalMark,totalPts,count,subjects.length);
+}
+function onMarkChange(input,grade){
+const subj=input.dataset.subj;
+const m=input.value;
+const pl=m!==''?getPL(parseFloat(m),grade):'—';
+const pts=m!==''?getPts(parseFloat(m),grade):'';
+const key=subj.replace(/[^a-z]/gi,'_');
+const plEl=document.getElementById('pl_'+key);
+const ptsEl=document.getElementById('pts_'+key);
+if(plEl){plEl.textContent=pl;plEl.style.color=pl!=='—'?plColor(pl):'#aaa';}
+if(ptsEl) ptsEl.textContent=pts;
+// Recalc summary
+let tot=0,pts2=0,cnt=0;
+const grade2=document.getElementById('mGrade').value;
+document.querySelectorAll('.mark-inp').forEach(inp=>{
+if(inp.value!==''){tot+=parseFloat(inp.value);pts2+=getPts(parseFloat(inp.value),grade2)||0;cnt++;}
+});
+updateMarksSummary(grade2,tot,pts2,cnt,(SUBJECTS[grade2]||[]).length);
+}
+function updateMarksSummary(grade,totalMark,totalPts,count,total){
+const avg=count?(totalMark/count).toFixed(1):'—';
+const ovr=totalPts?getOvr(totalPts,grade):'';
+const ovrCol=ovr?plColor(ovr):'#aaa';
+document.getElementById('marksSummary').innerHTML=`
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<div style="background:#f0f4f8;border-radius:8px;padding:8px 12px;flex:1;text-align:center">
+<div style="font-size:11px;color:#888">Total Marks</div>
+<div style="font-size:16px;font-weight:800;color:var(--navy)">${count?Math.round(totalMark):'—'}</div>
+</div>
+<div style="background:#f0f4f8;border-radius:8px;padding:8px 12px;flex:1;text-align:center">
+<div style="font-size:11px;color:#888">Average</div>
+<div style="font-size:16px;font-weight:800;color:var(--navy)">${avg}%</div>
+</div>
+<div style="background:#f0f4f8;border-radius:8px;padding:8px 12px;flex:1;text-align:center">
+<div style="font-size:11px;color:#888">Points</div>
+<div style="font-size:16px;font-weight:800;color:var(--navy)">${totalPts||'—'}</div>
+</div>
+<div style="background:#f0f4f8;border-radius:8px;padding:8px 12px;flex:1;text-align:center">
+<div style="font-size:11px;color:#888">Overall</div>
+<div style="font-size:16px;font-weight:800;color:${ovrCol}">${ovr||'—'}</div>
+</div>
+</div>`;
+}
+function saveStudentMarks(){
+const grade=document.getElementById('mGrade').value;
+const term=document.getElementById('mTerm').value;
+const assess=document.getElementById('mAssess').value;
+const sid=parseInt(document.getElementById('mStudent').value);
+const student=S.find(s=>s.id===sid);
+const key=`${grade}|${term}|${assess}`;
+if(!M[key])M[key]={};
+if(!M[key][sid])M[key][sid]={};
+let saved=0;
+document.querySelectorAll('.mark-inp').forEach(inp=>{
+const val=inp.value.trim();
+if(val!==''){
+M[key][sid][inp.dataset.subj]=parseFloat(val);
+saved++;
+} else {
+// If input cleared, remove that subject mark
+delete M[key][sid][inp.dataset.subj];
+}
+});
+saveM();
+alert('✅ Marks saved for '+student.name+'!
+'+saved+' subject(s) recorded.');
+}
+function clearStudentMarks(){
+const grade=document.getElementById('mGrade').value;
+const term=document.getElementById('mTerm').value;
+const assess=document.getElementById('mAssess').value;
+const sid=parseInt(document.getElementById('mStudent').value);
+const student=S.find(s=>s.id===sid);
+if(!confirm('Clear ALL marks for '+student.name+' in this assessment?
+This cannot be undone.'))return;
+const key=`${grade}|${term}|${assess}`;
+if(M[key]&&M[key][sid]) delete M[key][sid];
+saveM();
+alert('🗑 Marks cleared for '+student.name);
+loadStudentMarks();
+}
+// ═══ REPORTS ═══
+function pageReports(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card">
+<div class="card-title">🔍 Find Student</div>
+<div class="row"><label>Grade</label>
+<select id="rGrade">${GRADES.map(g=>`<option${g==='Grade 9'?' selected':''}>${g}</option>`).join('')}</select>
+</div>
+<div class="row"><label>Term</label>
+<select id="rTerm"><option>Term 1</option><option selected>Term 2</option><option>Term 3</option></select>
+</div>
+<div class="row"><label>Student</label>
+<select id="rStudent">${S.filter(s=>s.grade==='Grade 9').map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
+</div>
+<button class="btn btn-navy" onclick="showReport()">📋 View Report</button>
+</div>
+<div id="reportOut"></div>`;
+document.getElementById('rGrade').onchange=function(){
+const studs=S.filter(s=>s.grade===this.value);
+document.getElementById('rStudent').innerHTML=studs.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+};
+}
+function showReport(){
+const grade=document.getElementById('rGrade').value;
+const term=document.getElementById('rTerm').value;
+const sid=parseInt(document.getElementById('rStudent').value);
+const student=S.find(s=>s.id===sid);
+if(!student){alert('Select a student');return;}
+const subjects=SUBJECTS[grade]||[];
+const assessments=['Assessment 1','Assessment 2','End of Term'];
+let subjectRows=subjects.map((subj,i)=>{
+let cells=assessments.map(a=>{
+const key=`${grade}|${term}|${a}`;
+const m=(M[key]||{})[sid]?.[subj];
+const pl=m!==undefined?getPL(m,grade):'';
+return`<td>${m!==undefined?m:'—'}</td><td>${plBadge(pl)}</td>`;
+}).join('');
+return`<tr><td>${i+1}</td><td style="font-weight:600;white-space:nowrap">${subj}</td>${cells}</tr>`;
+}).join('');
+document.getElementById('reportOut').innerHTML=`
+<div class="result-header">
+<h3>${student.name}</h3>
+<p>MUKHUMA R.C JUNIOR SCHOOL · ${grade} · ${term} · 2026</p>
+</div>
+<div class="info-grid">
+<div class="info-item"><div class="il">Adm No</div><div class="iv">${student.adm}</div></div>
+<div class="info-item"><div class="il">Assess No</div><div class="iv" style="font-size:11px">${student.assess}</div></div>
+<div class="info-item"><div class="il">Grade</div><div class="iv">${student.grade}</div></div>
+<div class="info-item"><div class="il">Gender</div><div class="iv">${student.g==='M'?'♂ Male':'♀ Female'}</div></div>
+</div>
+<div class="card">
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>#</th><th>Subject</th><th>A1</th><th>P/L</th><th>A2</th><th>P/L</th><th>EOT</th><th>P/L</th></tr></thead>
+<tbody>${subjectRows}</tbody>
+</table>
+</div>
+</div>
+<div class="card" style="font-size:12px;color:#555">
+<strong>Principal:</strong> Evaristus Marumbu
+</div>`;
+}
+// ═══ CBC SUMMARY ═══
+function pageCBC(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card">
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Grade</label>
+<select id="cbcG" onchange="renderCBC()">${GRADES.map(g=>`<option${g==='Grade 9'?' selected':''}>${g}</option>`).join('')}</select>
+</div>
+<div class="row" style="margin-bottom:0"><label>Term</label>
+<select id="cbcT" onchange="renderCBC()"><option>Term 1</option><option selected>Term 2</option><option>Term 3</option></select>
+</div>
+</div>
+</div>
+<div id="cbcOut"></div>`;
+renderCBC();
+}
+function renderCBC(){
+const grade=document.getElementById('cbcG').value;
+const term=document.getElementById('cbcT').value;
+const subjects=SUBJECTS[grade]||[];
+const levels=is8(grade)?['EE1','EE2','ME1','ME2','AE1','AE2','BE1','BE2']:['EE','ME','AE','BE'];
+const total=ENROL[grade]||0;
+const assess=['Assessment 1','Assessment 2','End of Term'];
+// Aggregate marks
+const counts={};
+subjects.forEach(subj=>{
+counts[subj]={};
+levels.forEach(l=>counts[subj][l]=0);
+assess.forEach(a=>{
+const key=`${grade}|${term}|${a}`;
+const data=M[key]||{};
+Object.values(data).forEach(sd=>{
+const m=sd[subj];
+if(m!==undefined){
+const pl=getPL(m,grade);
+if(pl&&counts[subj][pl]!==undefined) counts[subj][pl]++;
+}
+});
+});
+});
+const hdr=levels.map(l=>`<th>${plBadge(l)}</th>`).join('');
+const rows=subjects.map(subj=>{
+const rowTotal=Object.values(counts[subj]).reduce((a,b)=>a+b,0);
+return`<tr>
+<td>${subj}</td>
+${levels.map(l=>`<td>${counts[subj][l]||0}</td>`).join('')}
+<td><strong>${rowTotal}</strong></td>
+</tr>`;
+}).join('');
+document.getElementById('cbcOut').innerHTML=`
+<div class="alert alert-info">${grade} · ${term} · ${total} learners · ${is8(grade)?'8-level':'4-level'} CBC</div>
+<div class="card">
+<div class="tbl-wrap">
+<table class="cbc-tbl">
+<thead><tr><th>Subject</th>${hdr}<th>Total</th></tr></thead>
+<tbody>${rows}</tbody>
+</table>
+</div>
+</div>`;
+}
+// ═══ ATTENDANCE ═══
+function pageAttendance(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card">
+<div class="row2">
+<div class="row" style="margin-bottom:0"><label>Grade</label>
+<select id="attG" onchange="loadAtt()">${GRADES.map(g=>`<option${g==='Grade 9'?' selected':''}>${g}</option>`).join('')}</select>
+</div>
+<div class="row" style="margin-bottom:0"><label>Week of</label>
+<input type="date" id="attW" value="${new Date().toISOString().split('T')[0]}"/>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">📅 Weekly Attendance</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px">
+${['Mon','Tue','Wed','Thu','Fri'].map(d=>`
+<div style="text-align:center;background:#f0f4f8;border-radius:8px;padding:8px 14px;flex-shrink:0">
+<div style="font-size:11px;font-weight:700;color:#888">${d}</div>
+<div style="font-size:20px;font-weight:800;color:var(--navy)">${Math.round((ENROL['Grade 9']||30)*(0.88+Math.random()*0.1))}</div>
+<div style="font-size:10px;color:#aaa">Present</div>
+</div>`).join('')}
+</div>
+<div id="attRows"></div>
+<button class="btn btn-navy" style="margin-top:10px" onclick="saveAtt()">💾 Save Attendance</button>
+</div>`;
+loadAtt();
+}
+function loadAtt(){
+const grade=document.getElementById('attG').value;
+const students=S.filter(s=>s.grade===grade);
+if(!students.length){document.getElementById('attRows').innerHTML=`<div class="alert alert-info">No students in ${grade}</div>`;return;}
+document.getElementById('attRows').innerHTML=students.slice(0,8).map((s,i)=>`
+<div class="att-row">
+<div class="att-name">${i+1}. ${s.name}</div>
+${['M','T','W','T','F'].map(d=>`<select class="att-sel"><option>P</option><option>A</option><option>L</option></select>`).join('')}
+</div>`).join('')+
+(students.length>8?`<div style="padding:8px;font-size:12px;color:#888">...and ${students.length-8} more students</div>`:'');
+}
+function saveAtt(){alert('✅ Attendance saved for '+document.getElementById('attG').value);}
+// ═══ FEES ═══
+function pageFees(){
+document.getElementById('pageBody').innerHTML=`
+<div class="fee-cards">
+<div class="fee-c g"><div class="fa">1.2M</div><div class="fl">✅ Collected</div></div>
+<div class="fee-c o"><div class="fa">387K</div><div class="fl">⏳ Pending</div></div>
+<div class="fee-c r"><div class="fa">112K</div><div class="fl">❌ Overdue</div></div>
+</div>
+<div class="card">
+<div class="card-title">💰 Fee Records</div>
+<input class="input" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:8px;margin-bottom:10px;font-size:13px"
+placeholder="🔍 Search student..." oninput="filterFeeList(this.value)"/>
+<div id="feeList"></div>
+</div>
+<div class="card" id="addPayCard" style="display:none">
+<div class="card-title">💳 Record Payment</div>
+<div class="row"><label>Student Name</label><input id="payName" placeholder="Student name"/></div>
+<div class="row"><label>Amount (KES)</label><input id="payAmt" type="number" placeholder="e.g. 6500"/></div>
+<div class="row"><label>Method</label>
+<select id="payMethod"><option>M-Pesa</option><option>Cash</option><option>Bank Transfer</option></select>
+</div>
+<div class="row"><label>Reference/Code</label><input id="payRef" placeholder="M-Pesa code etc."/></div>
+<button class="btn btn-green" onclick="recordPayment()">✅ Record Payment</button>
+<button class="btn btn-outline" onclick="document.getElementById('addPayCard').style.display='none'">Cancel</button>
+</div>
+<button class="btn btn-gold" onclick="document.getElementById('addPayCard').style.display='block'">+ Record New Payment</button>`;
+filterFeeList('');
+}
+function filterFeeList(val){
+const list=F.filter(f=>!val||f.name.toLowerCase().includes(val.toLowerCase()));
+const status=f=>f.bal<=0?['✅ Paid','#1e8449']:f.bal<f.fee?['⏳ Partial','#e67e22']:['❌ Unpaid','#c0392b'];
+document.getElementById('feeList').innerHTML=list.slice(0,15).map(f=>{
+const[st,col]=status(f);
+return`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #f0f2f5;gap:8px">
+<div style="flex:1">
+<div style="font-size:13px;font-weight:600">${f.name}</div>
+<div style="font-size:11px;color:#888">${f.grade} · Fee: KES ${f.fee.toLocaleString()}</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:12px;font-weight:700;color:${col}">${st}</div>
+<div style="font-size:11px;color:#c0392b">Bal: KES ${f.bal.toLocaleString()}</div>
+</div>
+</div>`;
+}).join('');
+}
+function recordPayment(){
+alert('✅ Payment recorded via '+document.getElementById('payMethod').value);
+document.getElementById('addPayCard').style.display='none';
+}
+// ═══ FEE CHECK (parent) ═══
+function pageFeeCheck(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card">
+<div class="card-title">💰 Check Fee Balance</div>
+<div class="row"><label>Admission Number</label><input id="fcAdm" placeholder="e.g. 087"/></div>
+<button class="btn btn-navy" onclick="checkFee()">🔍 Check Balance</button>
+<div id="feeResult" style="margin-top:12px"></div>
+</div>`;
+}
+function checkFee(){
+const adm=document.getElementById('fcAdm').value.trim();
+const student=S.find(s=>s.adm===adm);
+if(!student){document.getElementById('feeResult').innerHTML='<div class="alert alert-err">❌ Student not found</div>';return;}
+const fee=F.find(f=>f.sid===student.id)||{fee:6500,paid:0,bal:6500};
+const col=fee.bal<=0?'#1e8449':fee.bal<fee.fee?'#e67e22':'#c0392b';
+const status=fee.bal<=0?'✅ FULLY PAID':fee.bal<fee.fee?'⏳ PARTIALLY PAID':'❌ UNPAID';
+document.getElementById('feeResult').innerHTML=`
+<div class="result-header"><h3>${student.name}</h3><p>${student.grade} · Adm: ${student.adm}</p></div>
+<div class="info-grid">
+<div class="info-item"><div class="il">Term Fee</div><div class="iv">KES ${fee.fee.toLocaleString()}</div></div>
+<div class="info-item"><div class="il">Paid</div><div class="iv" style="color:#1e8449">KES ${fee.paid.toLocaleString()}</div></div>
+<div class="info-item"><div class="il">Balance</div><div class="iv" style="color:#c0392b">KES ${fee.bal.toLocaleString()}</div></div>
+<div class="info-item"><div class="il">Status</div><div class="iv" style="color:${col};font-size:11px">${status}</div></div>
+</div>`;
+}
+// ═══ PARENT PORTAL ═══
+function pagePortal(){
+document.getElementById('pageBody').innerHTML=`
+<div class="card" style="background:linear-gradient(135deg,var(--navy),#1a5276);color:white;border:none">
+<div style="font-size:13px;font-weight:700;margin-bottom:4px">🔍 Check Your Child's Results</div>
+<div style="font-size:11px;opacity:0.8;margin-bottom:14px">Angalia Matokeo ya Mtoto Wako</div>
+<div class="row"><label style="color:rgba(255,255,255,0.8)">Admission No / Nambari ya Usajili</label>
+<input id="pAdm" placeholder="e.g. 087" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:white"/>
+</div>
+<div class="divider" style="color:rgba(255,255,255,0.5)">OR / AU</div>
+<div class="row"><label style="color:rgba(255,255,255,0.8)">Assessment No / Nambari ya Tathmini</label>
+<input id="pAssess" placeholder="e.g. B000284688" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:white"/>
+</div>
+<button class="btn btn-gold" onclick="portalSearch()">🔍 View Results / Tazama Matokeo</button>
+</div>
+<div id="portalResult"></div>`;
+}
+function portalSearch(){
+const adm=document.getElementById('pAdm').value.trim();
+const assess=document.getElementById('pAssess').value.trim();
+const student=S.find(s=>(adm&&s.adm===adm)||(assess&&s.assess.toLowerCase()===assess.toLowerCase()));
+if(!student){
+document.getElementById('portalResult').innerHTML='<div class="alert alert-err">❌ No student found. Check the number and try again. / Nambari haijulikani.</div>';
+return;
+}
+const grade=student.grade;
+const subjects=SUBJECTS[grade]||[];
+const assessments=['Assessment 1','Assessment 2','End of Term'];
+let markData={};
+assessments.forEach(a=>{
+const key=`${grade}|Term 2|${a}`;
+markData[a]=(M[key]||{})[student.id]||{};
+});
+const subjRows=subjects.map((subj,i)=>{
+const m1=markData['Assessment 1'][subj];
+const m2=markData['Assessment 2'][subj];
+const pl1=m1!==undefined?getPL(m1,grade):'';
+const pl2=m2!==undefined?getPL(m2,grade):'';
+let trend='';
+if(m1!==undefined&&m2!==undefined){
+const d=parseFloat(m2)-parseFloat(m1);
+trend=d>0?`<span class="up">▲</span>`:d<0?`<span class="dn">▼</span>`:`<span class="eq">●</span>`;
+}
+return`<tr>
+<td>${i+1}</td>
+<td style="font-weight:600;font-size:11px;white-space:nowrap">${subj}</td>
+<td>${m1!==undefined?m1:'—'}</td><td>${plBadge(pl1)}</td>
+<td>${m2!==undefined?m2+' '+trend:'—'}</td><td>${plBadge(pl2)}</td>
+</tr>`;
+}).join('');
+// Overall from A2
+let totalPts=0,totalMark=0,count=0;
+subjects.forEach(subj=>{
+const m=markData['Assessment 2'][subj];
+if(m!==undefined){totalMark+=parseFloat(m);totalPts+=getPts(parseFloat(m),grade)||0;count++;}
+});
+const ovr=totalPts?getOvr(totalPts,grade):'—';
+const avg=count?(totalMark/count).toFixed(1):'—';
+const portalPhoto=localStorage.getItem('photo_'+student.id);
+const portalPhotoHtml=portalPhoto
+? `<img src="${portalPhoto}" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid white;flex-shrink:0"/>`
+: `<div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">${student.g==='M'?'👦':'👧'}</div>`;
+document.getElementById('portalResult').innerHTML=`
+<div class="result-header" style="display:flex;align-items:center;gap:12px">
+${portalPhotoHtml}
+<div>
+<h3>${student.name}</h3>
+<p>Mukhuma Primary and Junior School · ${grade} · Term 2, 2026</p>
+</div>
+</div>
+<div class="info-grid">
+<div class="info-item"><div class="il">Adm No</div><div class="iv">${student.adm}</div></div>
+<div class="info-item"><div class="il">Gender</div><div class="iv">${student.g==='M'?'♂ Male':'♀ Female'}</div></div>
+<div class="info-item"><div class="il">A2 Average</div><div class="iv">${avg}%</div></div>
+<div class="info-item"><div class="il">Overall Grade</div><div class="iv" style="color:${plColor(ovr)}">${ovr}</div></div>
+</div>
+<div class="card">
+<div class="card-title">📋 Subject Results</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>#</th><th>Subject</th><th>A1</th><th>P/L</th><th>A2</th><th>P/L</th></tr></thead>
+<tbody>${subjRows}</tbody>
+</table>
+</div>
+<div style="margin-top:10px;font-size:11px;color:#888">
+<span class="up">▲ Improved</span> &nbsp; <span class="dn">▼ Dropped</span> &nbsp; <span class="eq">● Same</span>
+</div>
+</div>
+<div class="card" style="font-size:12px;color:#555">
+<strong>Principal:</strong> Evaristus Marumbu
+</div>`;
+}
+// Suppress all console output in production
+(function(){
+const noop=()=>{};
+window.console={log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop,dir:noop,group:noop,groupEnd:noop,time:noop,timeEnd:noop};
+})();
+// Allow pressing Enter to login
+document.getElementById('lPass').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+</script>
+</body>
+</html>
